@@ -1,12 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './Home';
+import Login from './pages/Login/Login';
+import Register from './pages/Login/register';
+import Home from './pages/Home';
 import Pokedex from './pages/poke';
+
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/pokedex" element={<Pokedex />} />
+  <Route path="/login" element={<Login/>} />
+  <Route path="/registrar" element={<Register/>} />
+      <Route path="/" element={<Home/>} />
+      <Route path="/pokedex" element={<Pokedex/>} />
     </Routes>
   );
 }
