@@ -1,3 +1,7 @@
+# Sistema Pokemon
+
+Este site é um site para amadores do mundo dos Pokemons, onde ele poderá ver todas as gerações de pokemons e suas características!
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
