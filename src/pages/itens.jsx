@@ -2,48 +2,47 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const App = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Importa e usa o hook useNavigate
 
-  const [pokemons, setPokemons] = useState([]);
-  const [filteredPokemons, setFilteredPokemons] = useState([]);
+  const [items, setItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    async function fetchPokemons() {
+    async function fetchItems() {
       try {
-        const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=5000');
+        const response = await fetch('https://pokeapi.co/api/v2/item?limit=300');
         if (!response.ok) {
           throw new Error('HTTP error! Status: ' + response.status);
         }
         const data = await response.json();
 
-       
-        const detailedPokemons = await Promise.all(
-          data.results.map(async (pokemon) => {
-            const pokemonResponse = await fetch(pokemon.url);
-            const pokemonData = await pokemonResponse.json();
+        const detailedItems = await Promise.all(
+          data.results.map(async (item) => {
+            const itemResponse = await fetch(item.url);
+            const itemData = await itemResponse.json();
             return {
-              name: pokemon.name.toUpperCase(),
-              image: pokemonData.sprites.front_default,
+              name: item.name.toUpperCase(),
+              image: itemData.sprites.default,
             };
           })
         );
 
-        setPokemons(detailedPokemons);
-        setFilteredPokemons(detailedPokemons);
+        setItems(detailedItems);
+        setFilteredItems(detailedItems);
       } catch (error) {
-        console.error('Error fetching pokemons:', error);
+        console.error('Error fetching items:', error);
       }
     }
-    fetchPokemons();
+    fetchItems();
   }, []);
 
   useEffect(() => {
-    const results = pokemons.filter(pokemon =>
-      pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const results = items.filter(item =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setFilteredPokemons(results);
-  }, [searchQuery, pokemons]);
+    setFilteredItems(results);
+  }, [searchQuery, items]);
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -53,8 +52,8 @@ const App = () => {
     navigate('/sobre');
   };
   
-  const itensClick = () => {
-    navigate('/itens');
+  const pokedexClick = () => {
+    navigate('/pokedex');
   };
   
   const sobreNosClick = () => {
@@ -64,13 +63,13 @@ const App = () => {
   return (
     <div className="app">
       <header className="header">
-        <h1 className="title">PokeWorld Pokedex</h1>
+        <h1 className="title">PokeWorld Itens</h1>
         <nav>
           <button type="button" className='cadastrar' onClick={sobreClick}>
             Sobre
           </button>
-          <button type="button" className='cadastrar' onClick={itensClick}>
-            Itens
+          <button type="button" className='cadastrar' onClick={pokedexClick}>
+            Pokedex
           </button>
           <button type="button" className='cadastrar' onClick={sobreNosClick}>
             Sobre Nos
@@ -81,16 +80,16 @@ const App = () => {
         <section className="search-bar">
           <input
             type="text"
-            placeholder="Pesquisar Pokémon..."
+            placeholder="Pesquisar itens..."
             value={searchQuery}
             onChange={handleSearchChange}
           />
         </section>
-        <section className="pokemon-list">
-          {filteredPokemons.map((pokemon) => (
-            <div key={pokemon.name} className="pokemon">
-              <img src={pokemon.image} alt={pokemon.name} />
-              <p><strong>{pokemon.name}</strong></p>
+        <section className="item-list">
+          {filteredItems.map((item) => (
+            <div key={item.name} className="item">
+              <img src={item.image} alt={item.name} />
+              <p><strong>{item.name}</strong></p>
             </div>
           ))}
         </section>
@@ -166,13 +165,13 @@ const App = () => {
             border: 1px solid #ddd;
           }
           
-          .pokemon-list {
+          .item-list {
             display: grid;
-            grid-template-columns: repeat(5, 1fr); /* Ajustado para 5 itens por linha */
+            grid-template-columns: repeat(6, 1fr); /* Ajustado para 7 itens por linha */
             gap: 20px;
           }
           
-          .pokemon {
+          .item {
             background-color: #f9f9f9;
             padding: 10px;
             border: 1px solid #ddd;
@@ -180,13 +179,13 @@ const App = () => {
             text-align: center;
           }
           
-          .pokemon img {
+          .item img {
             max-width: 100px;
             max-height: 100px;
             margin-bottom: 10px;
           }
           
-          .pokemon p {
+          .item p {
             margin: 0;
             font-size: 14px;
           }
