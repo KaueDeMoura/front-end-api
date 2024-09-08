@@ -5,7 +5,7 @@ body, html {
     display: block;
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
-    overflow: hidden; /* Para evitar barra de rolagem */
+    overflow: hidden;
   }
   
 .containerRegister {
@@ -14,7 +14,7 @@ body, html {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    position: relative; /* Necessário para posicionar o conteúdo acima da animação */
+    position: relative;
     z-index: 1;
   }
   
@@ -33,7 +33,7 @@ body, html {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
-    z-index: 2; /* Para garantir que o form fique acima da animação */
+    z-index: 2;
   }
   
   .preencher {

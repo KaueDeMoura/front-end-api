@@ -22,7 +22,7 @@ const Login = () => {
 
       if (response.ok) {
         // Redireciona para a página inicial ou outra página após o login bem-sucedido
-        navigate('/home');
+        navigate('/sobre');
         //
       } else {
         const result = await response.json();
