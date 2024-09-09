@@ -47,7 +47,7 @@ function SobreNos() {
             <h3 className="card-title">Fabrício C. Correia</h3>
             <p>Olá! Nasci em Joinville, atualmente tenho 19 anos. Fiz o ensino médio na Escola annes Gualberto, 
               onde realizei o ensino médio. Atualmente estou realizando o curso de Análise e Desenvolvimento de 
-              Sistemas na Faculdade Senac.</p>
+              Sistemas na Faculdade Senac. Atualmente não trabalho na área, mas sou sócio de uma Empresa.</p>
           </div>
         </div>
       </div>

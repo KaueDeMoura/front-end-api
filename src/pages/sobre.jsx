@@ -38,10 +38,12 @@ const App = () => {
         <section className="about">
           <a>Sobre a Nossa Página de Pokémons</a>
           <p>
-            Bem-vindo à nossa página dedicada aos Pokémons! Nosso objetivo é que voce consiga Pesquisar
-            todos os Pokémons e itens do mundo dos pokemons. Queremos
-            criar um espaço onde fãs de todas as idades possam explorar e
-            aprender mais sobre o mundo incrível dos Pokémons!
+          Bem-vindo à nossa página exclusiva dedicada ao universo Pokémon! Aqui, você poderá pesquisar e descobrir todos os Pokémons, 
+          além de explorar os itens e curiosidades do vasto mundo Pokémon. Nossa missão é criar um espaço interativo e divertido, 
+          onde fãs de todas as idades possam aproveita o universo Pokémon,
+          aprender sobre seus pokemons favoritas,
+          e ficar por dentro de todas as novidades. 
+          Prepare-se para uma jornada cheia de aventuras e conhecimento no mundo Pokémon!
           </p>
         </section>
         <aside className="pokemon-image">
