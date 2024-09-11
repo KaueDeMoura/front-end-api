@@ -17,14 +17,15 @@ const App = () => {
         }
         const data = await response.json();
 
-       
         const detailedPokemons = await Promise.all(
           data.results.map(async (pokemon) => {
             const pokemonResponse = await fetch(pokemon.url);
             const pokemonData = await pokemonResponse.json();
+            const type = pokemonData.types[0]?.type.name;
             return {
               name: pokemon.name.toUpperCase(),
               image: pokemonData.sprites.front_default,
+              type: type,
             };
           })
         );
@@ -32,7 +33,7 @@ const App = () => {
         setPokemons(detailedPokemons);
         setFilteredPokemons(detailedPokemons);
       } catch (error) {
-        console.error('Error fetching pokemons:', error);
+        console.error('Erro ao encontrar pokemons:', error);
       }
     }
     fetchPokemons();
@@ -52,13 +53,37 @@ const App = () => {
   const sobreClick = () => {
     navigate('/sobre');
   };
-  
+
   const itensClick = () => {
     navigate('/itens');
   };
-  
+
   const sobreNosClick = () => {
     navigate('/sobreNos');
+  };
+
+  const getTypeColor = (type) => {
+    const typeColors = {
+      grass: '#78C850',
+      fire: '#F08030',
+      water: '#6890F0',
+      bug: '#A8B820',
+      normal: '#A8A878',
+      poison: '#A040A0',
+      electric: '#F8D030',
+      ground: '#E0C068',
+      fairy: '#EE99AC',
+      fighting: '#C03028',
+      psychic: '#F85888',
+      rock: '#B8A038',
+      ghost: '#705898',
+      ice: '#98D8D8',
+      dragon: '#7038F8',
+      dark: '#705848',
+      steel: '#B8B8D0',
+      flying: '#A890F0',
+    };
+    return typeColors[type];
   };
 
   return (
@@ -77,7 +102,7 @@ const App = () => {
           </button>
         </nav>
       </header>
-      <main className="main-content">
+      <main className="conteudo-main">
         <section className="search-bar">
           <input
             type="text"
@@ -86,11 +111,16 @@ const App = () => {
             onChange={handleSearchChange}
           />
         </section>
-        <section className="pokemon-list">
+        <section className="listpokemon">
           {filteredPokemons.map((pokemon) => (
-            <div key={pokemon.name} className="pokemon">
+            <div 
+              key={pokemon.name} 
+              className="pokemon"
+              style={{ backgroundColor: getTypeColor(pokemon.type) }}
+            >
               <img src={pokemon.image} alt={pokemon.name} />
               <p><strong>{pokemon.name}</strong></p>
+              <p><strong>Tipo: {pokemon.type.toUpperCase()}</strong></p>
             </div>
           ))}
         </section>
@@ -103,7 +133,7 @@ const App = () => {
             font-family: Arial, sans-serif;
             background-color: white;
             height: 100%;
-            overflow-y: auto; /* Permite a rolagem da página */
+            overflow-y: auto;
             background-image: none;
           }
           
@@ -147,7 +177,7 @@ const App = () => {
             background-color: #0056b3;
           }
           
-          .main-content {
+          .conteudo-main {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -166,9 +196,9 @@ const App = () => {
             border: 1px solid #ddd;
           }
           
-          .pokemon-list {
+          .listpokemon {
             display: grid;
-            grid-template-columns: repeat(5, 1fr); /* Ajustado para 5 itens por linha */
+            grid-template-columns: repeat(5, 1fr);
             gap: 20px;
           }
           
@@ -178,7 +208,19 @@ const App = () => {
             border: 1px solid #ddd;
             border-radius: 4px;
             text-align: center;
+            animation: moveCard 5s infinite;
+            transition: all 0.2s ease-in-out;
           }
+
+          .pokemon:hover {
+            animation: jump 0.3s ease-in-out;
+        }
+
+        @keyframes jump {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
           
           .pokemon img {
             max-width: 100px;
