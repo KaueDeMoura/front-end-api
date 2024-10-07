@@ -1,17 +1,38 @@
+// Register.js
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './register.css';
 
 const Register = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulação de sucesso no cadastro
-    navigate('/login');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert('Cadastro realizado com sucesso!');
+        navigate('/login');
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Erro no cadastro:', error);
+      alert('Erro ao realizar cadastro');
+    }
   };
 
-  // Redireciona para a página de login
   const handleRegisterClick = () => {
     navigate('/login');
   };
@@ -25,6 +46,7 @@ const Register = () => {
           <input
             type="text"
             id="name"
+            value={name}
             onChange={(e) => setName(e.target.value)}
             required
           />
@@ -34,6 +56,7 @@ const Register = () => {
           <input
             type="email"
             id="email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -43,13 +66,14 @@ const Register = () => {
           <input
             type="password"
             id="password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
         <button type="submit">Cadastrar</button>
         <hr />
-        <button type="button" className='cadastrar' onClick={handleRegisterClick}>
+        <button type="button" className="cadastrar" onClick={handleRegisterClick}>
           Login
         </button>
       </form>

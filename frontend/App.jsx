@@ -1,10 +1,12 @@
 import { Routes, Route } from 'react-router-dom';
-import Login from './pages/Login/Login';
-import Registrar from './pages/Login/register';
-import Sobre from './pages/sobre';
-import Pokedex from './pages/poke';
-import Itens from './pages/itens';
-import SobreNos from './pages/sobreNos';
+import Login from './src/components/Login';
+import Registrar from './src/components/register';
+import Sobre from './src/pages/sobre';
+import Pokedex from './src/pages/poke';
+import Itens from './src/pages/itens';
+import SobreNos from './src/pages/sobreNos';
+import AdminRoute from './src/components/AdminRoute';
+import AdminCrudPage from './src/components/AdminCrudPage';
 
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
       <Route path="/pokedex" element={<Pokedex />} />
       <Route path="/itens" element={<Itens />} />
       <Route path="/sobrenos" element={<SobreNos />} /> 
+      <Route path="/admin/crud" element={<AdminRoute><AdminCrudPage /></AdminRoute>} />
     </Routes>
   );
 }
