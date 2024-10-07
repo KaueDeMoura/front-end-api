@@ -1,3 +1,4 @@
+```md
 # Projeto PokeWorld - Frontend e Backend
 
 Este projeto é uma aplicação web para gerenciar Pokémons utilizando a [PokeAPI](https://pokeapi.co/). O sistema permite que usuários se cadastrem, façam login e explorem os Pokémons cadastrados. O projeto foi separado em duas partes: **frontend** e **backend**.
@@ -43,10 +44,21 @@ Para executar o projeto, certifique-se de ter as seguintes ferramentas instalada
 
 ## Banco de Dados
 
-Antes de rodar a aplicação, certifique-se de ter um banco de dados criado com o nome **pokedex**, contendo a tabela **usuarios** com os seguintes campos:
+Antes de rodar a aplicação, certifique-se de ter um banco de dados criado com o nome **pokedex** e uma tabela **users** com os seguintes campos:
+- **id**: INT (auto-incremento, chave primária)
 - **name**: VARCHAR
 - **email**: VARCHAR
 - **password**: VARCHAR (criptografado usando bcrypt)
+- **role**: VARCHAR (padrão 'Viewer')
+
+### Operações no Banco de Dados
+
+- **findAll()**: Retorna todos os usuários da tabela `users`.
+- **findById(id)**: Retorna um usuário com base no `id`.
+- **findByEmail(email)**: Retorna um usuário com base no `email`.
+- **create(name, email, password, role)**: Cria um novo usuário na tabela `users`.
+- **update(id, updates)**: Atualiza os dados de um usuário com base no `id`.
+- **delete(id)**: Deleta um usuário com base no `id`.
 
 ## Como executar o projeto
 
@@ -69,7 +81,7 @@ git clone https://github.com/KaueDeMoura/front-end-api
 
 3. Configure o banco de dados MySQL, criando as tabelas necessárias.
 
-4. Inicie o servidor Node.js:
+4. Inicie o servidor Node.js na porta 5000:
    ```bash
    node Server.js
    ```
@@ -92,7 +104,7 @@ git clone https://github.com/KaueDeMoura/front-end-api
    ```
 
 ### 4. Acessar o sistema:
-Após iniciar o servidor backend e o frontend, abra o navegador e acesse o endereço:
+Após iniciar o servidor backend (porta 5000) e o frontend, abra o navegador e acesse o endereço:
 ```
 http://localhost:3000
 ```
@@ -104,3 +116,4 @@ http://localhost:3000
 
 - Explore as funcionalidades oferecidas.
 - Faça login, cadastre novos Pokémons e utilize o sistema para pesquisa e gerenciamento de Pokémons.
+```
