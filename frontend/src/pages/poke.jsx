@@ -11,7 +11,7 @@ const App = () => {
   useEffect(() => {
     async function fetchPokemons() {
       try {
-        const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=5000');
+        const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100');
         if (!response.ok) {
           throw new Error('HTTP error! Status: ' + response.status);
         }
@@ -61,6 +61,9 @@ const App = () => {
   const sobreNosClick = () => {
     navigate('/sobreNos');
   };
+  const adminpage = () => {
+    navigate('/admin/crud');
+  };
 
   const getTypeColor = (type) => {
     const typeColors = {
@@ -99,6 +102,9 @@ const App = () => {
           </button>
           <button type="button" className='cadastrar' onClick={sobreNosClick}>
             Sobre Nos
+          </button>
+          <button type="button" className='cadastrar' onClick={adminpage}>
+            Admin Page
           </button>
         </nav>
       </header>

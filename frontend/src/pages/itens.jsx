@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const App = () => {
-  const navigate = useNavigate(); // Importa e usa o hook useNavigate
+  const navigate = useNavigate();
 
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -11,7 +11,7 @@ const App = () => {
   useEffect(() => {
     async function fetchItems() {
       try {
-        const response = await fetch('https://pokeapi.co/api/v2/item?limit=300');
+        const response = await fetch('https://pokeapi.co/api/v2/item?limit=100');
         if (!response.ok) {
           throw new Error('HTTP error! Status: ' + response.status);
         }
@@ -60,6 +60,10 @@ const App = () => {
     navigate('/sobreNos');
   };
 
+  const adminpage = () => {
+    navigate('/admin/crud');
+  };
+
   return (
     <div className="app">
       <header className="header">
@@ -73,6 +77,9 @@ const App = () => {
           </button>
           <button type="button" className='cadastrar' onClick={sobreNosClick}>
             Sobre Nos
+          </button>
+          <button type="button" className='cadastrar' onClick={adminpage}>
+            Admin Page
           </button>
         </nav>
       </header>

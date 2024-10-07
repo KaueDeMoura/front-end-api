@@ -11,7 +11,9 @@ function SobreNos() {
     navigate(path);
   };
 
-
+  const adminpage = () => {
+    navigate('/admin/crud');
+  };
   
   return (
     <div className="sobre-nos">
@@ -26,6 +28,9 @@ function SobreNos() {
           </button>
           <button type="button" className='nav-button' onClick={() => handleNavigation('/itens')}>
             Itens
+          </button>
+          <button type="button" className='nav-buton' onClick={adminpage}>
+            Admin Page
           </button>
         </nav>
       </header>

@@ -17,6 +17,10 @@ const App = () => {
     navigate('/sobreNos');
   };
 
+  const adminpage = () => {
+    navigate('/admin/crud');
+  };
+
   return (
     <div className="app">
       <header className="header">
@@ -30,6 +34,9 @@ const App = () => {
           </button>
           <button type="button" className='cadastrar' onClick={sobreNosClick}>
             Sobre Nos
+          </button>
+          <button type="button" className='cadastrar' onClick={adminpage}>
+            Admin Page
           </button>
         </nav>
       </header>

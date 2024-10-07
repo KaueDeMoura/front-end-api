@@ -3,15 +3,35 @@ import { useNavigate } from 'react-router-dom';
 import './login.css';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Redireciona para a página inicial diretamente
-    navigate('../sobre');
+  
+    try {
+      const response = await fetch('http://localhost:5000/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem('token', data.token);  
+        localStorage.setItem('role', data.role); 
+        navigate('../sobre'); 
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Erro no login:', error);
+      alert('Erro ao realizar login');
+    }
   };
+  
 
-  // Se clicar em registrar vai pra página de registro
   const RegisterClick = () => {
     navigate('/registrar');
   };
@@ -25,6 +45,7 @@ const Login = () => {
           <input
             type="email"
             id="email"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
@@ -34,13 +55,14 @@ const Login = () => {
           <input
             type="password"
             id="password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
         <button type="submit">Login</button>
         <hr />
-        <button type="button" className='cadastrar' onClick={RegisterClick}>
+        <button type="button" className="cadastrar" onClick={RegisterClick}>
           Criar nova conta
         </button>
       </form>
