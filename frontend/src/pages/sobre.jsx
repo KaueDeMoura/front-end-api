@@ -38,6 +38,12 @@ const App = () => {
           <button type="button" className='cadastrar' onClick={adminpage}>
             Admin Page
           </button>
+          <button type="button" className='deletar' onClick={adminpage}>
+            Sair
+          </button>
+          <button type="button" className='deletar' onClick={adminpage}>
+            Excluir Conta
+          </button>
         </nav>
       </header>
 
@@ -56,7 +62,7 @@ const App = () => {
         </aside>
       </main>
       <style>
-        {`
+        {`            
           body, html {
             margin: 0;
             padding: 0;
@@ -107,6 +113,8 @@ const App = () => {
             font-size: 16px;
             transition: background-color 0.3s ease;
           }
+
+
 
           .conteudo {
             display: flex;
