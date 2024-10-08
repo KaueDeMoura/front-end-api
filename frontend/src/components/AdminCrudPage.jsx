@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 const AdminCrudPage = () => {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [editingUser, setEditingUser] = useState(null);
   const [newUser, setNewUser] = useState({
     name: '',

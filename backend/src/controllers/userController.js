@@ -64,7 +64,7 @@ const loginUser = async (req, res) => {
   try {
     const user = await User.findByEmail(email);
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).json({message: 'Naoooooo' });
+      return res.status(400).json({message: 'Não existe um usuario com este email, por favor corrija ou crie uma conta' });
     }
 
     const token = jwt.sign({ id: user.id, role: user.role }, 'secret_key', { expiresIn: '1h' });
