@@ -21,6 +21,11 @@ const App = () => {
     navigate('/admin/crud');
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
     <div className="app">
       <header className="header">
@@ -38,11 +43,8 @@ const App = () => {
           <button type="button" className='cadastrar' onClick={adminpage}>
             Admin Page
           </button>
-          <button type="button" className='deletar' onClick={adminpage}>
+          <button type="button" className='sair' onClick={handleLogout}>
             Sair
-          </button>
-          <button type="button" className='deletar' onClick={adminpage}>
-            Excluir Conta
           </button>
         </nav>
       </header>
@@ -51,7 +53,7 @@ const App = () => {
         <section className="about">
           <a>Sobre a Nossa Página de Pokémons</a>
           <p>
-            Bem-vindo à nossa página dedicada aos Pokémons! Nosso objetivo é que voce consiga Pesquisar
+            Bem-vindo à nossa página dedicada aos Pokémons! Nosso objetivo é que você consiga Pesquisar
             todos os Pokémons e itens do mundo dos pokemons. Queremos
             criar um espaço onde fãs de todas as idades possam explorar e
             aprender mais sobre o mundo incrível dos Pokémons!
