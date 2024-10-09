@@ -5,19 +5,19 @@ const App = () => {
   const navigate = useNavigate();
 
   const [pokemons, setPokemons] = useState([]);
-  const [filteredPokemons, setFilteredPokemons] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [filtroPokemons, setFiltroPokemons] = useState([]);
+  const [procQuery, setProcQuery] = useState('');
 
   useEffect(() => {
     async function fetchPokemons() {
       try {
         const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100');
         if (!response.ok) {
-          throw new Error('HTTP error! Status: ' + response.status);
+          throw new Error('HTTP erro: ' + response.status);
         }
         const data = await response.json();
 
-        const detailedPokemons = await Promise.all(
+        const detalheSPokemons = await Promise.all(
           data.results.map(async (pokemon) => {
             const pokemonResponse = await fetch(pokemon.url);
             const pokemonData = await pokemonResponse.json();
@@ -30,8 +30,8 @@ const App = () => {
           })
         );
 
-        setPokemons(detailedPokemons);
-        setFilteredPokemons(detailedPokemons);
+        setPokemons(detalheSPokemons);
+        setFiltroPokemons(detalheSPokemons);
       } catch (error) {
         console.error('Erro ao encontrar pokemons:', error);
       }
@@ -41,13 +41,13 @@ const App = () => {
 
   useEffect(() => {
     const results = pokemons.filter(pokemon =>
-      pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+      pokemon.name.toLowerCase().includes(procQuery.toLowerCase())
     );
-    setFilteredPokemons(results);
-  }, [searchQuery, pokemons]);
+    setFiltroPokemons(results);
+  }, [procQuery, pokemons]);
 
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
+  const procChange = (event) => {
+    setProcQuery(event.target.value);
   };
 
   const sobreClick = () => {
@@ -65,7 +65,12 @@ const App = () => {
     navigate('/admin/crud');
   };
 
-  const getTypeColor = (type) => {
+  const logout = () => {
+    localStorage.clear('token');
+    navigate('/login');
+  };
+
+  const typeColor = (type) => {
     const typeColors = {
       grass: '#78C850',
       fire: '#F08030',
@@ -106,6 +111,9 @@ const App = () => {
           <button type="button" className='cadastrar' onClick={adminpage}>
             Admin Page
           </button>
+          <button type="button" className='sair' onClick={logout}>
+          Desconectar
+          </button>
         </nav>
       </header>
       <main className="conteudo-main">
@@ -113,16 +121,16 @@ const App = () => {
           <input
             type="text"
             placeholder="Pesquisar Pokémon..."
-            value={searchQuery}
-            onChange={handleSearchChange}
+            value={procQuery}
+            onChange={procChange}
           />
         </section>
         <section className="listpokemon">
-          {filteredPokemons.map((pokemon) => (
+          {filtroPokemons.map((pokemon) => (
             <div 
               key={pokemon.name} 
               className="pokemon"
-              style={{ backgroundColor: getTypeColor(pokemon.type) }}
+              style={{ backgroundColor: typeColor(pokemon.type) }}
             >
               <img src={pokemon.image} alt={pokemon.name} />
               <p><strong>{pokemon.name}</strong></p>

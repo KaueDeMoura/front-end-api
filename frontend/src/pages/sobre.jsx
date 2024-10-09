@@ -21,8 +21,8 @@ const App = () => {
     navigate('/admin/crud');
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
+  const logout = () => {
+    localStorage.clear('token');
     navigate('/login');
   };
 
@@ -43,8 +43,8 @@ const App = () => {
           <button type="button" className='cadastrar' onClick={adminpage}>
             Admin Page
           </button>
-          <button type="button" className='sair' onClick={handleLogout}>
-            Sair
+          <button type="button" className='sair' onClick={logout}>
+          Desconectar
           </button>
         </nav>
       </header>
@@ -59,9 +59,8 @@ const App = () => {
             aprender mais sobre o mundo incrível dos Pokémons!
           </p>
         </section>
-        <aside className="pokemon-image">
           <img src={pikachuImage} alt="Pikachu"/>
-        </aside>
+    
       </main>
       <style>
         {`            
