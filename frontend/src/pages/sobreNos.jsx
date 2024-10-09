@@ -14,6 +14,11 @@ function SobreNos() {
   const adminpage = () => {
     navigate('/admin/crud');
   };
+
+  const logout = () => {
+    localStorage.clear('token');
+    navigate('/login');
+  };
   
   return (
     <div className="sobre-nos">
@@ -31,6 +36,9 @@ function SobreNos() {
           </button>
           <button type="button" className='nav-buton' onClick={adminpage}>
             Admin Page
+          </button>
+          <button type="button" className='sair' onClick={logout}>
+            Desconectar
           </button>
         </nav>
       </header>

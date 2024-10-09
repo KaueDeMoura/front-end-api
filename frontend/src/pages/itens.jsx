@@ -5,13 +5,13 @@ const App = () => {
   const navigate = useNavigate();
 
   const [items, setItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [filtroItens, setFiltroitens] = useState([]);
+  const [procQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     async function fetchItems() {
       try {
-        const response = await fetch('https://pokeapi.co/api/v2/item?limit=100');
+        const response = await fetch('https://pokeapi.co/api/v2/item?limit=90');
         if (!response.ok) {
           throw new Error('HTTP error! Status: ' + response.status);
         }
@@ -29,7 +29,7 @@ const App = () => {
         );
 
         setItems(detailedItems);
-        setFilteredItems(detailedItems);
+        setFiltroitens(detailedItems);
       } catch (error) {
         console.error('Error fetching items:', error);
       }
@@ -39,10 +39,10 @@ const App = () => {
 
   useEffect(() => {
     const results = items.filter(item =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      item.name.toLowerCase().includes(procQuery.toLowerCase())
     );
-    setFilteredItems(results);
-  }, [searchQuery, items]);
+    setFiltroitens(results);
+  }, [procQuery, items]);
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -64,6 +64,11 @@ const App = () => {
     navigate('/admin/crud');
   };
 
+  const logout = () => {
+    localStorage.clear('token');
+    navigate('/login');
+  };
+
   return (
     <div className="app">
       <header className="header">
@@ -81,6 +86,9 @@ const App = () => {
           <button type="button" className='cadastrar' onClick={adminpage}>
             Admin Page
           </button>
+          <button type="button" className='sair' onClick={logout}>
+          Desconectar
+          </button>
         </nav>
       </header>
       <main className="main-content">
@@ -88,12 +96,12 @@ const App = () => {
           <input
             type="text"
             placeholder="Pesquisar itens..."
-            value={searchQuery}
+            value={procQuery}
             onChange={handleSearchChange}
           />
         </section>
         <section className="item-list">
-          {filteredItems.map((item) => (
+          {filtroItens.map((item) => (
             <div key={item.name} className="item">
               <img src={item.image} alt={item.name} />
               <p><strong>{item.name}</strong></p>
