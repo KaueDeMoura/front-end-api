@@ -5,44 +5,42 @@ import './login.css';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const response = await fetch('http://localhost:2000/login', {
+      const response = await fetch('http://localhost:5000/api/users/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-
+  
+      const data = await response.json();
       if (response.ok) {
-        // Redireciona para a página inicial ou outra página após o login bem-sucedido
-        navigate('/sobre');
-        //
+        localStorage.setItem('token', data.token);  
+        localStorage.setItem('role', data.role); 
+        navigate('../sobre'); 
       } else {
-        const result = await response.json();
-        setErrorMessage(result.message || 'Erro ao fazer login');
+        alert(data.message);
       }
     } catch (error) {
-      setErrorMessage('Erro ao conectar com o servidor');
+      console.error('Erro no login:', error);
+      alert('Erro ao realizar login');
     }
   };
-// Se clicar em registar vai pra paragina de registro
-  const handleRegisterClick = () => {
+  
+
+  const RegisterClick = () => {
     navigate('/registrar');
   };
-//
+
   return (
     <div className="containerLogin">
-      
       <form onSubmit={handleSubmit}>
         <div className="preencher">
-        <h2>Login</h2>
+          <h2>Login</h2>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -63,9 +61,8 @@ const Login = () => {
           />
         </div>
         <button type="submit">Login</button>
-        {errorMessage && <p className="errorMessage">{errorMessage}</p>}
         <hr />
-        <button type="button" className='cadastrar' onClick={handleRegisterClick}>
+        <button type="button" className="cadastrar" onClick={RegisterClick}>
           Criar nova conta
         </button>
       </form>

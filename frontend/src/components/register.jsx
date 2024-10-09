@@ -1,3 +1,5 @@
+// Register.js
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './register.css';
@@ -6,45 +8,40 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:2000/register', {
+      const response = await fetch('http://localhost:5000/api/users/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       });
 
+      const data = await response.json();
       if (response.ok) {
-        setSuccessMessage('Usuário cadastrado com sucesso!');
-        setTimeout(() => navigate('/login'), 2000); // Redireciona após 2 segundos para exibir a mensagem
+        alert('Cadastro realizado com sucesso!');
+        navigate('/login');
       } else {
-        const result = await response.json();
-        setErrorMessage(result.message || 'Erro ao criar conta');
+        alert(data.message);
       }
     } catch (error) {
-      setErrorMessage('Erro ao conectar com o servidor');
+      console.error('Erro no cadastro:', error);
+      alert('Erro ao realizar cadastro');
     }
   };
 
-  // Redireciona para a página de login 
   const handleRegisterClick = () => {
     navigate('/login');
   };
-//
+
   return (
     <div className="containerRegister">
-      
       <form onSubmit={handleSubmit}>
         <div className="preencher">
-        <h2>Criar Conta</h2>
+          <h2>Criar Conta</h2>
           <label htmlFor="name">Nome:</label>
           <input
             type="text"
@@ -76,11 +73,9 @@ const Register = () => {
         </div>
         <button type="submit">Cadastrar</button>
         <hr />
-        <button type="button" className='cadastrar' onClick={handleRegisterClick}>
+        <button type="button" className="cadastrar" onClick={handleRegisterClick}>
           Login
         </button>
-        {successMessage && <p className="successMessage">{successMessage}</p>}
-        {errorMessage && <p className="errorMessage">{errorMessage}</p>}
       </form>
     </div>
   );

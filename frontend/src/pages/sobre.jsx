@@ -17,6 +17,15 @@ const App = () => {
     navigate('/sobreNos');
   };
 
+  const adminpage = () => {
+    navigate('/admin/crud');
+  };
+
+  const logout = () => {
+    localStorage.clear('token');
+    navigate('/login');
+  };
+
   return (
     <div className="app">
       <header className="header">
@@ -31,6 +40,12 @@ const App = () => {
           <button type="button" className='cadastrar' onClick={sobreNosClick}>
             Sobre Nos
           </button>
+          <button type="button" className='cadastrar' onClick={adminpage}>
+            Admin Page
+          </button>
+          <button type="button" className='sair' onClick={logout}>
+          Desconectar
+          </button>
         </nav>
       </header>
 
@@ -38,18 +53,17 @@ const App = () => {
         <section className="about">
           <a>Sobre a Nossa Página de Pokémons</a>
           <p>
-            Bem-vindo à nossa página dedicada aos Pokémons! Nosso objetivo é que voce consiga Pesquisar
+            Bem-vindo à nossa página dedicada aos Pokémons! Nosso objetivo é que você consiga Pesquisar
             todos os Pokémons e itens do mundo dos pokemons. Queremos
             criar um espaço onde fãs de todas as idades possam explorar e
             aprender mais sobre o mundo incrível dos Pokémons!
           </p>
         </section>
-        <aside className="pokemon-image">
           <img src={pikachuImage} alt="Pikachu"/>
-        </aside>
+    
       </main>
       <style>
-        {`
+        {`            
           body, html {
             margin: 0;
             padding: 0;
@@ -100,6 +114,8 @@ const App = () => {
             font-size: 16px;
             transition: background-color 0.3s ease;
           }
+
+
 
           .conteudo {
             display: flex;

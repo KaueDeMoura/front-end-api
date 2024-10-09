@@ -1,20 +1,34 @@
-# Projeto PokeWorld - Frontend com React
+```md
+# Projeto PokeWorld - Frontend e Backend
 
-Este projeto é uma aplicação web para gerenciar Pokémons utilizando a [PokeAPI](https://pokeapi.co/). O sistema permite que usuários se cadastrem, façam login e explorem os Pokémons cadastrados. Desenvolvido com React, utiliza várias tecnologias modernas para criar uma experiência dinâmica e interativa.
+Este projeto é uma aplicação web para gerenciar Pokémons utilizando a [PokeAPI](https://pokeapi.co/). O sistema permite que usuários se cadastrem, façam login e explorem os Pokémons cadastrados. O projeto foi separado em duas partes: **frontend** e **backend**.
 
 ## Tecnologias Utilizadas
+
+### Frontend
 - **React**
 - **React Router**
 - **JavaScript**
 - **CSS**
 - **Fetch API**
-- **Node.js**:
-- **MySQL**:
-- **bcrypt**
 - **Axios**
 - **Styled-Components**
 - **react-icons**
-- **body-parser** e **cors**
+- **react-router-dom**
+- **bcrypt**
+- **body-parser**
+- **cors**
+- **express**
+- **mysql**
+- **npm**
+
+### Backend
+- **Node.js**
+- **Express**
+- **bcrypt**
+- **cors**
+- **jsonwebtoken**
+- **mysql2**
 
 ## Funcionalidades
 - Cadastro de usuários
@@ -30,36 +44,76 @@ Para executar o projeto, certifique-se de ter as seguintes ferramentas instalada
 
 ## Banco de Dados
 
-Antes de rodar a aplicação, certifique-se de ter um banco de dados criado com o nome **pokedex**, contendo a tabela `usuarios` com os seguintes campos:
-- `name`: VARCHAR
-- `email`: VARCHAR
-- `password`: VARCHAR (criptografado usando bcrypt)
+Antes de rodar a aplicação, certifique-se de ter um banco de dados criado com o nome **pokedex** e uma tabela **users** com os seguintes campos:
+- **id**: INT (auto-incremento, chave primária)
+- **name**: VARCHAR
+- **email**: VARCHAR
+- **password**: VARCHAR (criptografado usando bcrypt)
+- **role**: VARCHAR (padrão 'Viewer')
+
+### Operações no Banco de Dados
+
+- **findAll()**: Retorna todos os usuários da tabela `users`.
+- **findById(id)**: Retorna um usuário com base no `id`.
+- **findByEmail(email)**: Retorna um usuário com base no `email`.
+- **create(name, email, password, role)**: Cria um novo usuário na tabela `users`.
+- **update(id, updates)**: Atualiza os dados de um usuário com base no `id`.
+- **delete(id)**: Deleta um usuário com base no `id`.
 
 ## Como executar o projeto
 
-1. Clone o repositório:
-   git clone https://github.com/KaueDeMoura/front-end-api
+### 1. Clonar o repositório:
+```bash
+git clone https://github.com/KaueDeMoura/front-end-api
+```
 
-2. Acesse o diretório do projeto:
-   cd front-end-api
+### 2. Configurar o Backend:
 
-3. Instale as dependências:
+1. Acesse o diretório do backend:
+   ```bash
+   cd front-end-api/backend
+   ```
+
+2. Instale as dependências do backend:
+   ```bash
    npm install
+   ```
 
+3. Configure o banco de dados MySQL, criando as tabelas necessárias.
 
-4. Instale as dependências adicionais:
-   npm install bcrypt cors express mysql react-dom react-icons react-router-dom styled-components axios body-parser
+4. Inicie o servidor Node.js na porta 5000:
+   ```bash
+   node Server.js
+   ```
 
+### 3. Configurar o Frontend:
 
-5. Inicie o servidor Node.js:
-   node Server.cjs
+1. Acesse o diretório do frontend:
+   ```bash
+   cd ../frontend
+   ```
 
-6. Após o servidor estar em execução, inicie a aplicação React:
+2. Instale as dependências do frontend:
+   ```bash
+   npm install
+   ```
+
+3. Inicie a aplicação React:
+   ```bash
    npm run dev
+   ```
 
-7. Acesse o sistema e crie uma conta ou faça login.
+### 4. Acessar o sistema:
+Após iniciar o servidor backend (porta 5000) e o frontend, abra o navegador e acesse o endereço:
+```
+http://localhost:3000
+```
+
+- Crie uma conta ou faça login.
+- Navegue pela aplicação e explore os Pokémons disponíveis.
 
 ## Como utilizar
 
-- Navegue pela aplicação e explore os Pokémons disponíveis.
-- Aproveite o sistema para explorar as funcionalidades oferecidas.
+- Explore as funcionalidades oferecidas.
+- Faça login, cadastre novos Pokémons e utilize o sistema para pesquisa e gerenciamento de Pokémons.
+```
