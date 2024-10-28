@@ -2,86 +2,89 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const getUsers = async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({message:'Não foi possivel buscar usuarios', error });
+const SECRET_KEY = 'secret_key';
+const SALT_VALUE = 10;
+
+class UserController {
+  async createUser(name, email, password, role = 'Viewer') {
+    if (!name || !email || !password) {
+      throw new Error('Nome, email e senha são obrigatorios');
+    }
+  
+    const userCriado = await User.findOne({ where: { email } });
+    if (userCriado) {
+      throw new Error('Ja existe uma conta com este email');
+    }
+  
+    const hashPass = await bcrypt.hash(password, SALT_VALUE);
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashPass,
+      role,
+    });
+    return newUser;
   }
-};
 
-const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
-
-  try {
-    if (await User.findByEmail(email)) {
-      return res.status(400).json({message:'Já existe uma conta com este email' });
+  async findUser(id) {
+    if (!id) {
+      throw new Error('Id é obrigatorio.');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create(name, email, hashedPassword);
-
-    res.status(201).json({message:'Usuário registrado com sucesso', user: newUser });
-  } catch (error) {
-    res.status(500).json({message:'Erro ao registrar usuário', error });
-  }
-};
-
-const createUser = async (req, res) => {
-  const { name, email, password, role } = req.body;
-
-  if (role === 'Admin' && req.user.role !== 'Admin') {
-    return res.status(403).json({message:'Somente Admin pode criar outro Admin' });
+    const user = await User.findByPk(id);
+    if (!user) {
+      throw new Error('Usuario não encontrado');
+    }
+    return user;
   }
 
-  try {
-    if (await User.findByEmail(email)) {
-      return res.status(400).json({message:'Já existe uma conta com este email' });
+  async updateUser(id, name, email, password, role) {
+    const user = await this.findUser(id);
+
+    if (email) {
+      const userCriado = await User.findOne({ where: { email } });
+      if (userCriado && userCriado.id !== id) {
+        throw new Error('Email ja cadastrado');
+      }
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create(name, email, hashedPassword, role);
+    const updatedData = {
+      name: name || user.name,
+      email: email || user.email,
+      password: password ? await bcrypt.hash(password, SALT_VALUE) : user.password,
+      role: role || user.role,
+    };
 
-    res.status(201).json({message:'Usuario criado com sucesso', user: newUser });
-  } catch (error) {
-    res.status(500).json({message:'Erro ao tentar criar usuário', error });
+    await user.update(updatedData);
+    return user;
   }
-};
 
-const deleteUser = async (req, res) => {
-  try {
-    await User.delete(req.params.id);
-    res.json({message:'Usuario deletado com sucesso' });
-  } catch (error) {
-    res.status(500).json({message:'Erro ao tentar deletar usuario', error });
+  async deleteUser(id) {
+    if (!id) {
+      throw new Error('Id é obrigatorio');
+    }
+
+    const user = await this.findUser(id);
+    await user.destroy();
   }
-};
 
-const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  async findUsers() {
+    return await User.findAll();
+  }
 
-  try {
-    const user = await User.findByEmail(email);
+  async loginUser(email, password) {
+    if (!email || !password) {
+      throw new Error('Email e senha são obrigatorios');
+    }
+  
+    const user = await User.findOne({ where: { email } });
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).json({message: 'Não existe um usuario com este email, por favor corrija ou crie uma conta' });
+      throw new Error('Email ou senha invalidos');
     }
-
-    const token = jwt.sign({ id: user.id, role: user.role }, 'secret_key', { expiresIn: '1h' });
-    res.status(200).json({ token, role: user.role });
-  } catch (error) {
-    res.status(500).json({message:'Erro ao fazer login', error });
+  
+    const token = jwt.sign({ id: user.id, role: user.role }, SECRET_KEY, { expiresIn: '1h' });
+    return { token, role: user.role };
   }
-};
+}
 
-const updateUser = async (req, res) => {
-  try {
-    await User.update(req.params.id, req.body);
-    const updatedUser = await User.findById(req.params.id);
-    res.json(updatedUser);
-  } catch (error) {
-    res.status(500).json({message:'erro ao atualizar', error });
-  }
-};
-
-module.exports = { getUsers, registerUser, createUser, deleteUser, loginUser, updateUser };
+module.exports = new UserController();
