@@ -1,11 +1,9 @@
-const mysql = require('mysql2/promise');
+const { Sequelize } = require('sequelize');
 
-const pool = mysql.createPool({
+const connect = new Sequelize('pokeworld', 'root', '2558', {
   host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'pokeworld',
-
+  dialect: 'mysql',
+  port: 3310
 });
 
-module.exports = pool;
+module.exports = connect;
