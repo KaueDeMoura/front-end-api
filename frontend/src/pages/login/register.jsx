@@ -1,5 +1,3 @@
-// Register.js
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './register.css';
@@ -14,18 +12,20 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/register', {
+      const response = await fetch('http://localhost:5000/api/users/register', { // Rota ajustada para o endpoint correto
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       });
+
+      console.log('Response:', response);
 
       const data = await response.json();
       if (response.ok) {
         alert('Cadastro realizado com sucesso!');
         navigate('/login');
       } else {
-        alert(data.message);
+        alert(data.error || 'Erro ao realizar o cadastro');
       }
     } catch (error) {
       console.error('Erro no cadastro:', error);
