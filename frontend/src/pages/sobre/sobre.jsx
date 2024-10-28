@@ -1,5 +1,5 @@
 import React from 'react';
-import pikachuImage from './imgs/pikachu.png';
+import pikachuImage from '../imgs/pikachu.png';
 import { useNavigate } from 'react-router-dom';
 
 const App = () => {

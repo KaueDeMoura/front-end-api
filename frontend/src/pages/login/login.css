@@ -106,11 +106,11 @@ hr {
 
 @keyframes moveBackground {
   0% { background-position: 0 0; }
-  100% { background-position: -2000px 0; } /* Ajuste o valor para controlar a velocidade */
+  100% { background-position: -2000px 0; }
 }
 
 body {
-  background-image: url('../imgs/todos.jpg'); /* Substitua pelo caminho da sua imagem */
+  background-image: url('../../todos.jpg');
   
   background-size: inherit;
   animation: moveBackground 100s linear infinite;

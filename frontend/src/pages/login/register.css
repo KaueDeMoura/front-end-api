@@ -96,7 +96,7 @@ body, html {
   }
   
   body {
-    background-image: url('../pages/imgs/todos.jpg'); 
+    background-image: url('../imgs/todos.jpg'); 
     
     background-size: inherit;
     animation: moveBackground 100s linear infinite;

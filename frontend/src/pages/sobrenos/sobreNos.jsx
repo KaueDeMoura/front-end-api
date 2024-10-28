@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import kaueFoto from './imgs/kaue.jpg'; 
-import fabricioFoto from './imgs/fabricio.jpg'; 
+import kaueFoto from '../imgs/kaue.jpg'; 
+import fabricioFoto from '../imgs/fabricio.jpg'; 
 
 function SobreNos() {
   const navigate = useNavigate(); 
