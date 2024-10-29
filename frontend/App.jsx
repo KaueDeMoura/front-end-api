@@ -8,6 +8,7 @@ import SobreNos from './src/pages/sobrenos/sobreNos';
 import AdminRoute from './src/pages/admin/AdminRoute';
 import AdminCrudPage from './src/pages/admin/AdminCrudPage';
 import ViewerRoute from './src/pages/ViewerRoute';
+import AlterarDados from './src/pages/alterar/alterarDados';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/pokedex" element={<ViewerRoute> <Pokedex/> </ViewerRoute>} />
       <Route path="/itens" element={<ViewerRoute> <Itens/> </ViewerRoute>} />
       <Route path="/sobrenos" element={<ViewerRoute> <SobreNos/> </ViewerRoute>} />
+      <Route path="/alterarDados" element={<ViewerRoute> <AlterarDados/> </ViewerRoute>} />
       
       <Route path="/admin/crud" element={<AdminRoute> <AdminCrudPage /> </AdminRoute>} />
     </Routes>

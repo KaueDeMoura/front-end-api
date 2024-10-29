@@ -1,18 +1,28 @@
-import React from 'react';
-import pikachuImage from '../imgs/pikachu.png';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import pikachuImage from '../imgs/pikachu.png';
+import userImage from '../imgs/iconuser.png';
 
 const App = () => {
   const navigate = useNavigate();
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
+  const sobre = () => {
+    navigate('/sobre');
+  };
 
   const pokedexClick = () => {
     navigate('/pokedex');
   };
-  
+
   const itensClick = () => {
     navigate('/itens');
   };
-  
+
   const sobreNosClick = () => {
     navigate('/sobreNos');
   };
@@ -26,26 +36,39 @@ const App = () => {
     navigate('/login');
   };
 
+  const alterarDados = () => {
+    navigate('/alterarDados');
+  };
+
   return (
     <div className="app">
       <header className="header">
         <h1 className="title">PokeWorld</h1>
         <nav>
-          <button type="button" className='cadastrar' onClick={pokedexClick}>
+        <button type="button" className="cadastrar" onClick={sobre}>
+            Sobre
+          </button>
+          <button type="button" className="cadastrar" onClick={pokedexClick}>
             Pokedex
           </button>
-          <button type="button" className='cadastrar' onClick={itensClick}>
+          <button type="button" className="cadastrar" onClick={itensClick}>
             Itens
           </button>
-          <button type="button" className='cadastrar' onClick={sobreNosClick}>
-            Sobre Nos
+          <button type="button" className="cadastrar" onClick={sobreNosClick}>
+            Sobre Nós
           </button>
-          <button type="button" className='cadastrar' onClick={adminpage}>
+          <button type="button" className="cadastrar" onClick={adminpage}>
             Admin Page
           </button>
-          <button type="button" className='sair' onClick={logout}>
-          Desconectar
-          </button>
+          <div className="user-profile" onClick={toggleDropdown}>
+            <img src={userImage} alt="Usuário" className="user-image" />
+            {dropdownVisible && (
+              <div className="dropdown-menu">
+                <button onClick={alterarDados}>Alterar Dados</button>
+                <button onClick={logout}>Desconectar</button>
+              </div>
+            )}
+          </div>
         </nav>
       </header>
 
@@ -59,32 +82,25 @@ const App = () => {
             aprender mais sobre o mundo incrível dos Pokémons!
           </p>
         </section>
-          <img src={pikachuImage} alt="Pikachu"/>
-    
+        <img src={pikachuImage} alt="Pikachu" />
       </main>
+
       <style>
-        {`            
+        {`
           body, html {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            height: 100%;
             background-color: white;
-            background-image: none;
+            font-family: Arial, sans-serif;
           }
 
-          .app h1 {
-            align-items: center;
-            margin: 0 0 15px 0;
-          }
-          
-          a{
-            font-size: 35px;
-          }
-          
           .app {
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
+            background-color: white;
           }
 
           .header {
@@ -92,21 +108,23 @@ const App = () => {
             background-color: #ffcc01;
             padding: 10px 0;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
           }
 
           .title {
             font-size: 36px;
-            margin: 0;
+            margin-left: 20px;
           }
 
           .header nav {
             display: flex;
-            justify-content: center;
+            align-items: center;
             gap: 15px;
           }
 
-          .header button {
+          .cadastrar {
             padding: 10px 20px;
             border-radius: 15px;
             background-color: #007bff;
@@ -115,7 +133,43 @@ const App = () => {
             transition: background-color 0.3s ease;
           }
 
+          .user-profile {
+            position: relative;
+            cursor: pointer;
+          }
 
+          .user-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+          }
+
+          .dropdown-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #ffcc01;
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .dropdown-menu button {
+            padding: 10px;
+            font-size: 16px;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            width: 100%;
+          }
+
+          .dropdown-menu button:hover {
+            background-color: #f5f5f5;
+          }
 
           .conteudo {
             display: flex;
@@ -135,17 +189,6 @@ const App = () => {
           .about p {
             font-size: 16px;
             line-height: 1.5;
-          }
-
-          .pokemon-image {
-            flex: 1;
-            display: flex;
-            align-items: unset;
-            justify-content: center;
-          }
-
-          .pokemon-image img {
-            max-width: 50%;
           }
         `}
       </style>

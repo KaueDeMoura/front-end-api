@@ -1,55 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userImage from '../imgs/iconuser.png';
+import pikachuImage from '../imgs/pikachu.png';
+import userImage from '../imgs';
 
 const App = () => {
   const navigate = useNavigate();
-  const [items, setItems] = useState([]);
-  const [filtroItens, setFiltroitens] = useState([]);
-  const [procQuery, setSearchQuery] = useState('');
   const [dropdownVisible, setDropdownVisible] = useState(false);
-
-  useEffect(() => {
-    async function fetchItems() {
-      try {
-        const response = await fetch('https://pokeapi.co/api/v2/item?limit=90');
-        if (!response.ok) throw new Error('HTTP error! Status: ' + response.status);
-        
-        const data = await response.json();
-        const detailedItems = await Promise.all(
-          data.results.map(async (item) => {
-            const itemResponse = await fetch(item.url);
-            const itemData = await itemResponse.json();
-            return { name: item.name.toUpperCase(), image: itemData.sprites.default };
-          })
-        );
-
-        setItems(detailedItems);
-        setFiltroitens(detailedItems);
-      } catch (error) {
-        console.error('Error fetching items:', error);
-      }
-    }
-    fetchItems();
-  }, []);
-
-  useEffect(() => {
-    const results = items.filter(item =>
-      item.name.toLowerCase().includes(procQuery.toLowerCase())
-    );
-    setFiltroitens(results);
-  }, [procQuery, items]);
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
-  };
-
-  const sobre = () => {
-    navigate('/sobre');
   };
 
   const pokedexClick = () => {
@@ -82,9 +41,6 @@ const App = () => {
       <header className="header">
         <h1 className="title">PokeWorld</h1>
         <nav>
-        <button type="button" className="cadastrar" onClick={sobre}>
-            Sobre
-          </button>
           <button type="button" className="cadastrar" onClick={pokedexClick}>
             Pokedex
           </button>
@@ -108,24 +64,20 @@ const App = () => {
           </div>
         </nav>
       </header>
-      <main className="main-content">
-        <section className="search-bar">
-          <input
-            type="text"
-            placeholder="Pesquisar itens..."
-            value={procQuery}
-            onChange={handleSearchChange}
-          />
+
+      <main className="conteudo">
+        <section className="about">
+          <a>Sobre a Nossa Página de Pokémons</a>
+          <p>
+            Bem-vindo à nossa página dedicada aos Pokémons! Nosso objetivo é que você consiga Pesquisar
+            todos os Pokémons e itens do mundo dos pokemons. Queremos
+            criar um espaço onde fãs de todas as idades possam explorar e
+            aprender mais sobre o mundo incrível dos Pokémons!
+          </p>
         </section>
-        <section className="item-list">
-          {filtroItens.map((item) => (
-            <div key={item.name} className="item">
-              <img src={item.image} alt={item.name} />
-              <p><strong>{item.name}</strong></p>
-            </div>
-          ))}
-        </section>
+        <img src={pikachuImage} alt="Pikachu" />
       </main>
+
       <style>
         {`
           body, html {
@@ -133,15 +85,12 @@ const App = () => {
             padding: 0;
             font-family: Arial, sans-serif;
             background-color: white;
-            height: 100%;
-            overflow-y: auto;
           }
 
           .app {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
           }
 
           .header {
@@ -212,48 +161,24 @@ const App = () => {
             background-color: #f5f5f5;
           }
 
-          .main-content {
+          .conteudo {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             margin: 20px;
-            width: 100%;
-          }
-
-          .search-bar {
-            margin-bottom: 20px;
-          }
-
-          .search-bar input {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-          }
-
-          .item-list {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
             gap: 20px;
+            width: 80%;
+            max-width: 1200px;
           }
 
-          .item {
-            background-color: #f9f9f9;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            text-align: center;
+          .about {
+            flex: 1;
+            margin: 10vh 0 5vh 0;
           }
 
-          .item img {
-            max-width: 100px;
-            max-height: 100px;
-            margin-bottom: 10px;
-          }
-
-          .item p {
-            margin: 0;
-            font-size: 14px;
+          .about p {
+            font-size: 16px;
+            line-height: 1.5;
           }
         `}
       </style>
