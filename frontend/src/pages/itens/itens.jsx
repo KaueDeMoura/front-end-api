@@ -1,30 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import userImage from '../imgs/iconuser.png';
 
 const App = () => {
   const navigate = useNavigate();
-
   const [items, setItems] = useState([]);
   const [filtroItens, setFiltroitens] = useState([]);
   const [procQuery, setSearchQuery] = useState('');
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
     async function fetchItems() {
       try {
         const response = await fetch('https://pokeapi.co/api/v2/item?limit=90');
-        if (!response.ok) {
-          throw new Error('HTTP error! Status: ' + response.status);
-        }
+        if (!response.ok) throw new Error('HTTP error! Status: ' + response.status);
+        
         const data = await response.json();
-
         const detailedItems = await Promise.all(
           data.results.map(async (item) => {
             const itemResponse = await fetch(item.url);
             const itemData = await itemResponse.json();
-            return {
-              name: item.name.toUpperCase(),
-              image: itemData.sprites.default,
-            };
+            return { name: item.name.toUpperCase(), image: itemData.sprites.default };
           })
         );
 
@@ -48,14 +44,22 @@ const App = () => {
     setSearchQuery(event.target.value);
   };
 
-  const sobreClick = () => {
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
+  const sobre = () => {
     navigate('/sobre');
   };
-  
+
   const pokedexClick = () => {
     navigate('/pokedex');
   };
-  
+
+  const itensClick = () => {
+    navigate('/itens');
+  };
+
   const sobreNosClick = () => {
     navigate('/sobreNos');
   };
@@ -69,26 +73,39 @@ const App = () => {
     navigate('/login');
   };
 
+  const alterarDados = () => {
+    navigate('/alterarDados');
+  };
+
   return (
     <div className="app">
       <header className="header">
-        <h1 className="title">PokeWorld Itens</h1>
+        <h1 className="title">PokeWorld</h1>
         <nav>
-          <button type="button" className='cadastrar' onClick={sobreClick}>
+        <button type="button" className="cadastrar" onClick={sobre}>
             Sobre
           </button>
-          <button type="button" className='cadastrar' onClick={pokedexClick}>
+          <button type="button" className="cadastrar" onClick={pokedexClick}>
             Pokedex
           </button>
-          <button type="button" className='cadastrar' onClick={sobreNosClick}>
-            Sobre Nos
+          <button type="button" className="cadastrar" onClick={itensClick}>
+            Itens
           </button>
-          <button type="button" className='cadastrar' onClick={adminpage}>
+          <button type="button" className="cadastrar" onClick={sobreNosClick}>
+            Sobre Nós
+          </button>
+          <button type="button" className="cadastrar" onClick={adminpage}>
             Admin Page
           </button>
-          <button type="button" className='sair' onClick={logout}>
-          Desconectar
-          </button>
+          <div className="user-profile" onClick={toggleDropdown}>
+            <img src={userImage} alt="Usuário" className="user-image" />
+            {dropdownVisible && (
+              <div className="dropdown-menu">
+                <button onClick={alterarDados}>Alterar Dados</button>
+                <button onClick={logout}>Desconectar</button>
+              </div>
+            )}
+          </div>
         </nav>
       </header>
       <main className="main-content">
@@ -117,37 +134,37 @@ const App = () => {
             font-family: Arial, sans-serif;
             background-color: white;
             height: 100%;
-            overflow-y: auto; /* Permite a rolagem da página */
-            background-image: none;
+            overflow-y: auto;
           }
-          
+
           .app {
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
           }
-          
+
           .header {
             width: 100%;
             background-color: #ffcc01;
             padding: 10px 0;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
           }
-          
+
           .title {
             font-size: 36px;
-            color: #333;
-            margin: 0;
+            margin-left: 20px;
           }
-          
-          header nav {
+
+          .header nav {
             display: flex;
-            justify-content: center;
+            align-items: center;
             gap: 15px;
           }
-          
+
           .cadastrar {
             padding: 10px 20px;
             border-radius: 15px;
@@ -156,11 +173,45 @@ const App = () => {
             font-size: 16px;
             transition: background-color 0.3s ease;
           }
-          
-          header button:hover {
-            background-color: #0056b3;
+
+          .user-profile {
+            position: relative;
+            cursor: pointer;
           }
-          
+
+          .user-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+          }
+
+          .dropdown-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #ffcc01;
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .dropdown-menu button {
+            padding: 10px;
+            font-size: 16px;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            width: 100%;
+          }
+
+          .dropdown-menu button:hover {
+            background-color: #f5f5f5;
+          }
+
           .main-content {
             display: flex;
             flex-direction: column;
@@ -168,24 +219,24 @@ const App = () => {
             margin: 20px;
             width: 100%;
           }
-          
+
           .search-bar {
             margin-bottom: 20px;
           }
-          
+
           .search-bar input {
             padding: 10px;
             font-size: 16px;
             border-radius: 4px;
             border: 1px solid #ddd;
           }
-          
+
           .item-list {
             display: grid;
-            grid-template-columns: repeat(6, 1fr); /* Ajustado para 7 itens por linha */
+            grid-template-columns: repeat(6, 1fr);
             gap: 20px;
           }
-          
+
           .item {
             background-color: #f9f9f9;
             padding: 10px;
@@ -193,13 +244,13 @@ const App = () => {
             border-radius: 4px;
             text-align: center;
           }
-          
+
           .item img {
             max-width: 100px;
             max-height: 100px;
             margin-bottom: 10px;
           }
-          
+
           .item p {
             margin: 0;
             font-size: 14px;

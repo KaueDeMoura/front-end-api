@@ -8,7 +8,7 @@ const AdminCrudPage = () => {
     name: '',
     email: '',
     password: '',
-    role: 'viewer',
+    role: 'Viewer',
   });
 
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ const AdminCrudPage = () => {
       if (response.ok) {
         const addedUser = await response.json();
         setUsers([...users, addedUser]);
-        setNewUser({ name: '', email: '', password: '', role: 'viewer' });
+        setNewUser({ name: '', email: '', password: '', role: 'Viewer' });
         window.location.reload();
       } else {
         console.error('Falha ao adicionar o usuário:', response.statusText);
@@ -93,7 +93,7 @@ const AdminCrudPage = () => {
       if (response.ok) {
         const updatedUser = await response.json();
         setUsers(users.map(user => user.id === updatedUser.id ? updatedUser : user));
-        setEditingUser(null); // Limpar o formulário de edição
+        setEditingUser(null); 
       } else {
         console.error('Falha ao editar o usuário:', response.statusText);
       }

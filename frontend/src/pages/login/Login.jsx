@@ -18,22 +18,25 @@ const Login = () => {
       });
   
       const data = await response.json();
+      console.log(response.data);
+      console.log(response);
+      console.log(data.token);
+      console.log(data.role);
       if (response.ok) {
-        localStorage.setItem('token', data.token);  
         localStorage.setItem('role', data.role); 
-        navigate('../sobre'); 
+        localStorage.setItem('token', data.token);
+        navigate('/sobre'); 
       } else {
-        alert(data.message);
+        alert(data.error || 'Erro no login, tente novamente.');
       }
     } catch (error) {
       console.error('Erro no login:', error);
       alert('Erro ao realizar login');
     }
   };
-  
 
   const RegisterClick = () => {
-    navigate('/registrar');
+    navigate('/registrar'); 
   };
 
   return (
