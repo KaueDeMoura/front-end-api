@@ -6,6 +6,29 @@ const SECRET_KEY = 'secret_key';
 const SALT_VALUE = 10;
 
 class UserController {
+
+  async updateUserLogado(id, name, email, password) {
+    const user = await this.findUser(id);
+
+    if (email) {
+      const userCriado = await User.findOne({ where: { email } });
+      if (userCriado && userCriado.id !== id) {
+        throw new Error('Email ja cadastrado');
+      }
+    }
+
+    const updatedData = {
+      name: name || user.name,
+      email: email || user.email,
+      password: password ? await bcrypt.hash(password, SALT_VALUE) : user.password
+    };
+
+    await user.update(updatedData);
+    return user;
+  }
+  
+  
+
   async createUser(name, email, password, role = 'Viewer') {
     if (!name || !email || !password) {
       throw new Error('Nome, email e senha são obrigatorios');

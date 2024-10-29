@@ -1,6 +1,22 @@
 const UserController = require('../controllers/userController');
 
 class UserApi {
+
+    async updateUserLogado(req, res) {
+      const { id } = req.params;
+      const { name, email, password, role } = req.body;
+  
+      try {
+        const user = await UserController.updateUserLogado(Number(id), name, email, password, role);
+         return res.status(200).send({ message: 'Dados atualizados com sucesso'});
+      } catch (e) {
+        return res.status(400).send({ error: `Erro ao atualizar usuario: ${e.message}` });
+      }
+    }
+  
+  
+  
+
     async createUser(req, res) {
         const { name, email, password, role } = req.body;
       
@@ -41,7 +57,7 @@ class UserApi {
     }
   }
 
-  async findUsers(res) {
+  async findUsers(req, res) {
     try {
       const users = await UserController.findUsers();
       return res.status(200).send(users);

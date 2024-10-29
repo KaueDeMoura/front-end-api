@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import userImage from '../imgs/iconuser.png'; // Certifique-se de ter a imagem de usuário no caminho correto
 
 const App = () => {
   const navigate = useNavigate();
-
   const [pokemons, setPokemons] = useState([]);
   const [filtroPokemons, setFiltroPokemons] = useState([]);
   const [procQuery, setProcQuery] = useState('');
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
     async function fetchPokemons() {
@@ -50,8 +51,12 @@ const App = () => {
     setProcQuery(event.target.value);
   };
 
-  const sobreClick = () => {
+  const sobre = () => {
     navigate('/sobre');
+  };
+
+  const pokedexClick = () => {
+    navigate('/pokedex');
   };
 
   const itensClick = () => {
@@ -61,6 +66,7 @@ const App = () => {
   const sobreNosClick = () => {
     navigate('/sobreNos');
   };
+
   const adminpage = () => {
     navigate('/admin/crud');
   };
@@ -68,6 +74,14 @@ const App = () => {
   const logout = () => {
     localStorage.clear('token');
     navigate('/login');
+  };
+
+  const alterarDados = () => {
+    navigate('/alterarDados');
+  };
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
   };
 
   const typeColor = (type) => {
@@ -97,25 +111,35 @@ const App = () => {
   return (
     <div className="app">
       <header className="header">
-        <h1 className="title">PokeWorld Pokedex</h1>
+        <h1 className="title">PokeWorld</h1>
         <nav>
-          <button type="button" className='cadastrar' onClick={sobreClick}>
+        <button type="button" className="cadastrar" onClick={sobre}>
             Sobre
           </button>
-          <button type="button" className='cadastrar' onClick={itensClick}>
+          <button type="button" className="cadastrar" onClick={pokedexClick}>
+            Pokedex
+          </button>
+          <button type="button" className="cadastrar" onClick={itensClick}>
             Itens
           </button>
-          <button type="button" className='cadastrar' onClick={sobreNosClick}>
-            Sobre Nos
+          <button type="button" className="cadastrar" onClick={sobreNosClick}>
+            Sobre Nós
           </button>
-          <button type="button" className='cadastrar' onClick={adminpage}>
+          <button type="button" className="cadastrar" onClick={adminpage}>
             Admin Page
           </button>
-          <button type="button" className='sair' onClick={logout}>
-          Desconectar
-          </button>
+          <div className="user-profile" onClick={toggleDropdown}>
+            <img src={userImage} alt="Usuário" className="user-image" />
+            {dropdownVisible && (
+              <div className="dropdown-menu">
+                <button onClick={alterarDados}>Alterar Dados</button>
+                <button onClick={logout}>Desconectar</button>
+              </div>
+            )}
+          </div>
         </nav>
       </header>
+
       <main className="conteudo-main">
         <section className="search-bar">
           <input
@@ -139,6 +163,7 @@ const App = () => {
           ))}
         </section>
       </main>
+
       <style>
         {`
           body, html {
@@ -163,18 +188,19 @@ const App = () => {
             background-color: #ffcc01;
             padding: 10px 0;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
           }
           
           .title {
             font-size: 36px;
-            color: #333;
-            margin: 0;
+            margin-left: 20px;
           }
           
-          header nav {
+          .header nav {
             display: flex;
-            justify-content: center;
+            align-items: center;
             gap: 15px;
           }
           
@@ -187,10 +213,44 @@ const App = () => {
             transition: background-color 0.3s ease;
           }
           
-          header button:hover {
-            background-color: #0056b3;
+          .user-profile {
+            position: relative;
+            cursor: pointer;
           }
-          
+
+          .user-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+          }
+
+          .dropdown-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #ffcc01;
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .dropdown-menu button {
+            padding: 10px;
+            font-size: 16px;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            width: 100%;
+          }
+
+          .dropdown-menu button:hover {
+            background-color: #f5f5f5;
+          }
+
           .conteudo-main {
             display: flex;
             flex-direction: column;
@@ -222,20 +282,13 @@ const App = () => {
             border: 1px solid #ddd;
             border-radius: 4px;
             text-align: center;
-            animation: moveCard 5s infinite;
             transition: all 0.2s ease-in-out;
           }
 
           .pokemon:hover {
-            animation: jump 0.3s ease-in-out;
-        }
+            transform: scale(1.05);
+          }
 
-        @keyframes jump {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
-          
           .pokemon img {
             max-width: 100px;
             max-height: 100px;
