@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const database = require("../config/database");
  
-const Pokemon = database.db.define("Pokemon", {
+const Pokemon = database.define("Pokemon", {
   nome: {
     type: DataTypes.STRING,
     allowNull: false,

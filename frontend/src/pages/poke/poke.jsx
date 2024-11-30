@@ -1,40 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userImage from '../imgs/iconuser.png'; // Certifique-se de ter a imagem de usuário no caminho correto
+import userImage from '../imgs/iconuser.png'; 
+import api from '../../../api/api'; 
 
 const App = () => {
   const navigate = useNavigate();
-  const [pokemons, setPokemons] = useState([]);
-  const [filtroPokemons, setFiltroPokemons] = useState([]);
-  const [procQuery, setProcQuery] = useState('');
+  const [pokemons, setPokemons] = useState([]); 
+  const [filtroPokemons, setFiltroPokemons] = useState([]); 
+  const [procQuery, setProcQuery] = useState(''); 
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
     async function fetchPokemons() {
       try {
-        const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100');
-        if (!response.ok) {
-          throw new Error('HTTP erro: ' + response.status);
-        }
-        const data = await response.json();
-
-        const detalheSPokemons = await Promise.all(
-          data.results.map(async (pokemon) => {
-            const pokemonResponse = await fetch(pokemon.url);
-            const pokemonData = await pokemonResponse.json();
-            const type = pokemonData.types[0]?.type.name;
-            return {
-              name: pokemon.name.toUpperCase(),
-              image: pokemonData.sprites.front_default,
-              type: type,
-            };
-          })
-        );
-
-        setPokemons(detalheSPokemons);
-        setFiltroPokemons(detalheSPokemons);
+        const response = await api.get('/pokemons');
+        setPokemons(response.data);
+        setFiltroPokemons(response.data);
       } catch (error) {
-        console.error('Erro ao encontrar pokemons:', error);
+        console.error('Erro ao buscar pokemons do backend:', error);
       }
     }
     fetchPokemons();
@@ -42,7 +25,7 @@ const App = () => {
 
   useEffect(() => {
     const results = pokemons.filter(pokemon =>
-      pokemon.name.toLowerCase().includes(procQuery.toLowerCase())
+      pokemon.nome.toLowerCase().includes(procQuery.toLowerCase())
     );
     setFiltroPokemons(results);
   }, [procQuery, pokemons]);
@@ -105,7 +88,7 @@ const App = () => {
       steel: '#B8B8D0',
       flying: '#A890F0',
     };
-    return typeColors[type];
+    return typeColors[type] || '#A8A878';
   };
 
   return (
@@ -113,7 +96,7 @@ const App = () => {
       <header className="header">
         <h1 className="title">PokeWorld</h1>
         <nav>
-        <button type="button" className="cadastrar" onClick={sobre}>
+          <button type="button" className="cadastrar" onClick={sobre}>
             Sobre
           </button>
           <button type="button" className="cadastrar" onClick={pokedexClick}>
@@ -150,20 +133,23 @@ const App = () => {
           />
         </section>
         <section className="listpokemon">
-          {filtroPokemons.map((pokemon) => (
-            <div 
-              key={pokemon.name} 
-              className="pokemon"
-              style={{ backgroundColor: typeColor(pokemon.type) }}
-            >
-              <img src={pokemon.image} alt={pokemon.name} />
-              <p><strong>{pokemon.name}</strong></p>
-              <p><strong>Tipo: {pokemon.type.toUpperCase()}</strong></p>
-            </div>
-          ))}
+          {filtroPokemons.length > 0 ? (
+            filtroPokemons.map((pokemon) => (
+              <div
+                key={pokemon.id}
+                className="pokemon"
+                style={{ backgroundColor: typeColor(pokemon.tipo) }}
+              >
+                <img src={pokemon.imagem} alt={pokemon.nome} />
+                <p><strong>{pokemon.nome}</strong></p>
+                <p><strong>Tipo: {pokemon.tipo.toUpperCase()}</strong></p>
+              </div>
+            ))
+          ) : (
+            <div>Nenhum Pokémon encontrado.</div>
+          )}
         </section>
       </main>
-
       <style>
         {`
           body, html {
@@ -306,3 +292,7 @@ const App = () => {
 };
 
 export default App;
+
+
+
+      
