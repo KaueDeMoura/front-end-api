@@ -12,6 +12,9 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/users', userRoutes);
 
+const pokemonApi = require('./src/api/pokemon');
+app.get('/pokemons', pokemonApi.listarPokemons);
+
 const createAdminUser = async () => {
     const adminEmail = 'admin@admin.com';
     const adminPassword = 'admin'; 
