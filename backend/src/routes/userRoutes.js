@@ -16,6 +16,8 @@ router.delete('/:id', authMiddleware(['Admin']), userApi.deleteUser);
 router.put('/me', authMiddleware, userApi.updateUserLogado);
 
 router.get('/pokemons', pokemonApi.listarPokemons);
+router.get('/itens', pokemonApi.listarItens);
+
 
 
 module.exports = router;
