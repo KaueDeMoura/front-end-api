@@ -12,9 +12,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/users', userRoutes);
 
-const pokemonApi = require('./src/api/pokemon');
-app.get('/pokemons', pokemonApi.listarPokemons);
-
 const createAdminUser = async () => {
     const adminEmail = 'admin@admin.com';
     const adminPassword = 'admin'; 
@@ -41,7 +38,10 @@ const createAdminUser = async () => {
 
 const startServer = async () => {
     try {
-        await sequelize.sync({ alter: true });
+        await sequelize.authenticate(); // Verifica a conexão com o banco
+        console.log('Conexão com o banco de dados bem-sucedida.');
+
+        await sequelize.sync({ alter: true }); // Sincroniza os modelos com o banco
         console.log('Banco de dados sincronizado.');
 
         await createAdminUser();
