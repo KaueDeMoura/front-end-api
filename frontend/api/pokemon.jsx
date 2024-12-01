@@ -2,7 +2,12 @@ import api from './api';
 
 export const listarPokemons = async (page = 1) => {
   const response = await api.get('/pokemons', {
-    params: { page }, 
+    params: { page },
   });
-  return response.data; 
+  return response.data;
+};
+
+export const listarItens = async () => {
+  const response = await api.get('/itens');
+  return response.data;
 };
