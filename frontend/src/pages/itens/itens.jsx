@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { listarPokemons, listarItens } from '../api/pokemon';
+import { listarPokemons, listarItens } from '../../../api/pokemon';
 import userImage from '../imgs/iconuser.png';
 
 const App = () => {

@@ -16,7 +16,7 @@ const AdminCrudPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/users', {
+        const response = await fetch('https://pokeworld-back.onrender.com/api/users', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -41,7 +41,7 @@ const AdminCrudPage = () => {
 
   const deleteUser = async (id) => {
     try {
-      await fetch(`http://localhost:5000/api/users/${id}`, {
+      await fetch(`https://pokeworld-back.onrender.com/api/users/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -56,7 +56,7 @@ const AdminCrudPage = () => {
   const addUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch('https://pokeworld-back.onrender.com/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const AdminCrudPage = () => {
   const updateUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${editingUser.id}`, {
+      const response = await fetch(`https://pokeworld-back.onrender.com/api/users/${editingUser.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
