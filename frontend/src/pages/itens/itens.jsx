@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { listarPokemons, listarItens } from '../../../api/pokemon';
 import userImage from '../imgs/iconuser.png';
 
 const App = () => {
@@ -12,20 +13,9 @@ const App = () => {
   useEffect(() => {
     async function fetchItems() {
       try {
-        const response = await fetch('https://pokeapi.co/api/v2/item?limit=90');
-        if (!response.ok) throw new Error('HTTP error! Status: ' + response.status);
-        
-        const data = await response.json();
-        const detailedItems = await Promise.all(
-          data.results.map(async (item) => {
-            const itemResponse = await fetch(item.url);
-            const itemData = await itemResponse.json();
-            return { name: item.name.toUpperCase(), image: itemData.sprites.default };
-          })
-        );
-
-        setItems(detailedItems);
-        setFiltroitens(detailedItems);
+        const data = await listarItens(); // Usar a API do backend para buscar itens
+        setItems(data);
+        setFiltroitens(data);
       } catch (error) {
         console.error('Error fetching items:', error);
       }
@@ -34,7 +24,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const results = items.filter(item =>
+    const results = items.filter((item) =>
       item.name.toLowerCase().includes(procQuery.toLowerCase())
     );
     setFiltroitens(results);
@@ -48,41 +38,23 @@ const App = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
-  const sobre = () => {
-    navigate('/sobre');
-  };
-
-  const pokedexClick = () => {
-    navigate('/pokedex');
-  };
-
-  const itensClick = () => {
-    navigate('/itens');
-  };
-
-  const sobreNosClick = () => {
-    navigate('/sobreNos');
-  };
-
-  const adminpage = () => {
-    navigate('/admin/crud');
-  };
-
+  const sobre = () => navigate('/sobre');
+  const pokedexClick = () => navigate('/pokedex');
+  const itensClick = () => navigate('/itens');
+  const sobreNosClick = () => navigate('/sobreNos');
+  const adminpage = () => navigate('/admin/crud');
   const logout = () => {
     localStorage.clear('token');
     navigate('/login');
   };
-
-  const alterarDados = () => {
-    navigate('/alterarDados');
-  };
+  const alterarDados = () => navigate('/alterarDados');
 
   return (
     <div className="app">
       <header className="header">
         <h1 className="title">PokeWorld</h1>
         <nav>
-        <button type="button" className="cadastrar" onClick={sobre}>
+          <button type="button" className="cadastrar" onClick={sobre}>
             Sobre
           </button>
           <button type="button" className="cadastrar" onClick={pokedexClick}>
@@ -262,3 +234,4 @@ const App = () => {
 };
 
 export default App;
+
