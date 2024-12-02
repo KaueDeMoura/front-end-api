@@ -1,4 +1,4 @@
-const PokemonController = require('../controllers/pokemon');
+const PokemonController = require('../controllers/Pokemon');
 
 class PokemonApi {
   async listarPokemons(req, res) {
