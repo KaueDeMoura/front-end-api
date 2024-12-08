@@ -4,15 +4,14 @@ import axios from 'axios';
 
 function PokemonCrud() {
   const navigate = useNavigate();
-  const [pokemons, setPokemons] = useState([]); // Lista de Pokémons
+  const [pokemons, setPokemons] = useState([]);
   const [nome, setNome] = useState('');
   const [tipo, setTipo] = useState('');
   const [imagem, setImagem] = useState('');
   const [editarId, setEditarId] = useState(null);
 
-  const apiUrl = 'https://pokeworld-backend.onrender.com'; // Ajuste para sua URL de backend
+  const apiUrl = 'https://pokeworld-backend.onrender.com';
 
-  // Carregar Pokémons no início
   useEffect(() => {
     carregarPokemons();
   }, []);
@@ -26,7 +25,6 @@ function PokemonCrud() {
     }
   };
 
-  // Adicionar novo Pokémon
   const adicionarPokemon = async () => {
     try {
       await axios.post(`https://pokeworld-backend.onrender.com/pokemons`, {
@@ -43,7 +41,6 @@ function PokemonCrud() {
     }
   };
 
-  // Atualizar Pokémon
   const atualizarPokemon = async () => {
     try {
       await axios.put(`https://pokeworld-backend.onrender.com/pokemons/${editarId}`, {
@@ -61,7 +58,6 @@ function PokemonCrud() {
     }
   };
 
-  // Deletar Pokémon
   const deletarPokemon = async (id) => {
     try {
       await axios.delete(`https://pokeworld-backend.onrender.com/pokemons/${id}`);
@@ -91,8 +87,6 @@ function PokemonCrud() {
     navigate('/admin/crud');
   };
 
-
-
   return (
     <div>
       <header className="header">
@@ -118,7 +112,6 @@ function PokemonCrud() {
 
       <h1>CRUD de Pokémons</h1>
       
-      {/* Formulário para criar ou atualizar */}
       <div>
         <h3>{editarId ? 'Editar Pokémon' : 'Adicionar Pokémon'}</h3>
         <input
@@ -146,7 +139,6 @@ function PokemonCrud() {
         )}
       </div>
 
-      {/* Listagem de Pokémons */}
       <div>
         <h3>Lista de Pokémons</h3>
         <ul>

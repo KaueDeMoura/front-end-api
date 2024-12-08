@@ -1,7 +1,6 @@
 const PokemonController = require('../controllers/Pokemon');
 
 class PokemonApi {
-  // Listar todos os Pokémons
   async listarPokemons(req, res) {
     const { page = 1 } = req.query;
 
@@ -13,7 +12,6 @@ class PokemonApi {
     }
   }
 
-  // Listar itens (caso seja necessário manter)
   async listarItens(req, res) {
     try {
       const itens = await PokemonController.listarItens();
@@ -23,7 +21,6 @@ class PokemonApi {
     }
   }
 
-  // Criar um novo Pokémon
   async criarPokemon(req, res) {
     try {
       const novoPokemon = await PokemonController.criarPokemon(req.body);
@@ -33,7 +30,6 @@ class PokemonApi {
     }
   }
 
-  // Atualizar um Pokémon existente
   async atualizarPokemon(req, res) {
     const { id } = req.params;
 
@@ -45,7 +41,6 @@ class PokemonApi {
     }
   }
 
-  // Deletar um Pokémon
   async deletarPokemon(req, res) {
     const { id } = req.params;
 

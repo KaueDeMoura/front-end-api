@@ -5,7 +5,7 @@ const Pokemon = database.define("Pokemon", {
   nome: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true, // Nome único
+    unique: true,
     validate: {
       len: {
         args: [3, 50],

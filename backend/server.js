@@ -48,9 +48,9 @@ const createAdminUser = async () => {
 const startServer = async () => {
     try {
         await sequelize.sync({ alter: true });
-        await sequelize.authenticate(); // Verifica a conexão com o banco
+        await sequelize.authenticate();
         console.log('Conexão com o banco de dados bem-sucedida.');
-        await sequelize.sync({ alter: true }); // Sincroniza os modelos com o banco
+        await sequelize.sync({ alter: true }); 
         console.log('Banco de dados sincronizado.');
 
         await createAdminUser();

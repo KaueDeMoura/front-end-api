@@ -19,7 +19,7 @@ const AlterarDados = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setUserData({ ...data, password: '' }); // Clear password field for security
+          setUserData({ ...data, password: '' });
         } else {
           console.error('Falha ao buscar dados do usuário:', response.statusText);
         }
