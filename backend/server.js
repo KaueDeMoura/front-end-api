@@ -16,6 +16,9 @@ const pokemonApi = require('./src/api/pokemon');
 
 app.get('/pokemons', pokemonApi.listarPokemons);
 app.get('/itens', pokemonApi.listarItens);
+app.post('/pokemons', pokemonApi.criarPokemon);
+app.put('/pokemons/:id', pokemonApi.atualizarPokemon);
+app.delete('/pokemons/:id', pokemonApi.deletarPokemon);
 
 
 const createAdminUser = async () => {
