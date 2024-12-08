@@ -10,7 +10,7 @@ const AlterarDados = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('https://pokeworld-back.onrender.com/api/users/me', {
+        const response = await fetch('https://pokeworld-backend.onrender.com/api/users/me', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -39,7 +39,7 @@ const AlterarDados = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://pokeworld-back.onrender.com/api/users/me', {
+      const response = await fetch('https://pokeworld-backend.onrender.com/api/users/me', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

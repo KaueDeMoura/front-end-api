@@ -2,6 +2,7 @@ const Pokemon = require('../models/pokemon');
 const fetch = require('node-fetch');
 
 class PokemonController {
+  // Listar Pokémons (mantido como estava)
   async listarPokemons() {
     const pokemons = await Pokemon.findAll({
       order: [['id', 'ASC']],
@@ -40,6 +41,7 @@ class PokemonController {
     return pokemons;
   }
 
+  // Listar itens (mantido como estava)
   async listarItens() {
     const response = await fetch('https://pokeapi.co/api/v2/item?limit=90');
     if (!response.ok) {
@@ -63,6 +65,57 @@ class PokemonController {
     );
 
     return detailedItems;
+  }
+
+  // Criar um novo Pokémon
+  async criarPokemon(data) {
+    try {
+      const novoPokemon = await Pokemon.create({
+        nome: data.nome,
+        tipo: data.tipo,
+        imagem: data.imagem,
+      });
+
+      return novoPokemon;
+    } catch (error) {
+      throw new Error(`Erro ao criar Pokémon: ${error.message}`);
+    }
+  }
+
+  // Atualizar um Pokémon existente
+  async atualizarPokemon(id, data) {
+    try {
+      const pokemon = await Pokemon.findByPk(id);
+
+      if (!pokemon) {
+        throw new Error('Pokémon não encontrado');
+      }
+
+      const pokemonAtualizado = await pokemon.update({
+        nome: data.nome || pokemon.nome,
+        tipo: data.tipo || pokemon.tipo,
+        imagem: data.imagem || pokemon.imagem,
+      });
+
+      return pokemonAtualizado;
+    } catch (error) {
+      throw new Error(`Erro ao atualizar Pokémon: ${error.message}`);
+    }
+  }
+
+  // Deletar um Pokémon
+  async deletarPokemon(id) {
+    try {
+      const pokemon = await Pokemon.findByPk(id);
+
+      if (!pokemon) {
+        throw new Error('Pokémon não encontrado');
+      }
+
+      await pokemon.destroy();
+    } catch (error) {
+      throw new Error(`Erro ao deletar Pokémon: ${error.message}`);
+    }
   }
 }
 

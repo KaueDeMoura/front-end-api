@@ -1,40 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './register.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./register.css";
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://pokeworld-back.onrender.com/api/users/register', { // Rota ajustada para o endpoint correto
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("https://pokeworld-backend.onrender.com/api/users/register", {
+        // Rota ajustada para o endpoint correto
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
 
-      console.log('Response:', response);
+      console.log("Response:", response);
 
       const data = await response.json();
       if (response.ok) {
-        alert('Cadastro realizado com sucesso!');
-        navigate('/login');
+        alert("Cadastro realizado com sucesso!");
+        navigate("/login");
       } else {
-        alert(data.error || 'Erro ao realizar o cadastro');
+        alert(data.error || "Erro ao realizar o cadastro");
       }
     } catch (error) {
-      console.error('Erro no cadastro:', error);
-      alert('Erro ao realizar cadastro');
+      console.error("Erro no cadastro:", error);
+      alert("Erro ao realizar cadastro");
     }
   };
 
   const handleRegisterClick = () => {
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -73,7 +74,11 @@ const Register = () => {
         </div>
         <button type="submit">Cadastrar</button>
         <hr />
-        <button type="button" className="cadastrar" onClick={handleRegisterClick}>
+        <button
+          type="button"
+          className="cadastrar"
+          onClick={handleRegisterClick}
+        >
           Login
         </button>
       </form>

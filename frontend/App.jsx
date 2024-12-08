@@ -9,6 +9,7 @@ import AdminRoute from './src/pages/admin/AdminRoute';
 import AdminCrudPage from './src/pages/admin/AdminCrudPage';
 import ViewerRoute from './src/pages/ViewerRoute';
 import AlterarDados from './src/pages/alterar/alterarDados';
+import PokemonCrud from './src/pages/admin/pokemonCrud';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path="/alterarDados" element={<ViewerRoute> <AlterarDados/> </ViewerRoute>} />
       
       <Route path="/admin/crud" element={<AdminRoute> <AdminCrudPage /> </AdminRoute>} />
+      <Route path="/admin/pokemonCrud" element={<AdminRoute> <PokemonCrud /> </AdminRoute>} />
     </Routes>
   );
 }
