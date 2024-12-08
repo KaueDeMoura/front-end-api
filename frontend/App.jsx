@@ -8,7 +8,7 @@ import SobreNos from './src/pages/sobrenos/sobreNos';
 import AdminRoute from './src/pages/admin/AdminRoute';
 import AdminCrudPage from './src/pages/admin/AdminCrudPage';
 import ViewerRoute from './src/pages/ViewerRoute';
-import AlterarDados from './src/pages/alterar/alterarDados';
+import AlterarDados from './src/pages/alterar/AlterarDados';
 import PokemonCrud from './src/pages/admin/pokemonCrud';
 
 function App() {
