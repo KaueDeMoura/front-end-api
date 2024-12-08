@@ -1,42 +1,42 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './login.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./login.css";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      const response = await fetch('https://pokeworld-back.onrender.com/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("https://pokeworld-backend.onrender.com/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-  
+
       const data = await response.json();
       console.log(response.data);
       console.log(response);
       console.log(data.token);
       console.log(data.role);
       if (response.ok) {
-        localStorage.setItem('role', data.role); 
-        localStorage.setItem('token', data.token);
-        navigate('/sobre'); 
+        localStorage.setItem("role", data.role);
+        localStorage.setItem("token", data.token);
+        navigate("/sobre");
       } else {
-        alert(data.error || 'Erro no login, tente novamente.');
+        alert(data.error || "Erro no login, tente novamente.");
       }
     } catch (error) {
-      console.error('Erro no login:', error);
-      alert('Erro ao realizar login');
+      console.error("Erro no login:", error);
+      alert("Erro ao realizar login");
     }
   };
 
   const RegisterClick = () => {
-    navigate('/registrar'); 
+    navigate("/registrar");
   };
 
   return (

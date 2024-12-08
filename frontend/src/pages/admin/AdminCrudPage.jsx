@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AdminCrudPage = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
   const [newUser, setNewUser] = useState({
-    name: '',
-    email: '',
-    password: '',
-    role: 'Viewer',
+    name: "",
+    email: "",
+    password: "",
+    role: "Viewer",
   });
 
   const navigate = useNavigate();
@@ -16,10 +16,10 @@ const AdminCrudPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('https://pokeworld-back.onrender.com/api/users', {
-          method: 'GET',
+        const response = await fetch("https://pokeworld-backend.onrender.com/api/users", {
+          method: "GET",
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
 
@@ -27,10 +27,10 @@ const AdminCrudPage = () => {
           const data = await response.json();
           setUsers(data);
         } else {
-          console.error('Falha ao buscar os usuários:', response.statusText);
+          console.error("Falha ao buscar os usuários:", response.statusText);
         }
       } catch (error) {
-        console.error('Erro ao buscar os usuários:', error);
+        console.error("Erro ao buscar os usuários:", error);
       } finally {
         setLoading(false);
       }
@@ -41,26 +41,26 @@ const AdminCrudPage = () => {
 
   const deleteUser = async (id) => {
     try {
-      await fetch(`https://pokeworld-back.onrender.com/api/users/${id}`, {
-        method: 'DELETE',
+      await fetch(`https://pokeworld-backend.onrender.com/api/users/${id}`, {
+        method: "DELETE",
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      setUsers(users.filter(user => user.id !== id));
+      setUsers(users.filter((user) => user.id !== id));
     } catch (error) {
-      console.error('Erro ao excluir usuário:', error);
+      console.error("Erro ao excluir usuário:", error);
     }
   };
 
   const addUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://pokeworld-back.onrender.com/api/users', {
-        method: 'POST',
+      const response = await fetch("https://pokeworld-backend.onrender.com/api/users", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(newUser),
       });
@@ -68,37 +68,42 @@ const AdminCrudPage = () => {
       if (response.ok) {
         const addedUser = await response.json();
         setUsers([...users, addedUser]);
-        setNewUser({ name: '', email: '', password: '', role: 'Viewer' });
+        setNewUser({ name: "", email: "", password: "", role: "Viewer" });
         window.location.reload();
       } else {
-        console.error('Falha ao adicionar o usuário:', response.statusText);
+        console.error("Falha ao adicionar o usuário:", response.statusText);
       }
     } catch (error) {
-      console.error('Erro ao adicionar o usuário:', error);
+      console.error("Erro ao adicionar o usuário:", error);
     }
   };
 
   const updateUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`https://pokeworld-back.onrender.com/api/users/${editingUser.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(editingUser),
-      });
+      const response = await fetch(
+        `https://pokeworld-backend.onrender.com/api/users/${editingUser.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(editingUser),
+        }
+      );
 
       if (response.ok) {
         const updatedUser = await response.json();
-        setUsers(users.map(user => user.id === updatedUser.id ? updatedUser : user));
-        setEditingUser(null); 
+        setUsers(
+          users.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+        );
+        setEditingUser(null);
       } else {
-        console.error('Falha ao editar o usuário:', response.statusText);
+        console.error("Falha ao editar o usuário:", response.statusText);
       }
     } catch (error) {
-      console.error('Erro ao editar o usuário:', error);
+      console.error("Erro ao editar o usuário:", error);
     }
   };
 
@@ -115,26 +120,65 @@ const AdminCrudPage = () => {
       <header className="header">
         <h1 className="title">PokeWorld Admin Page</h1>
         <nav>
-          <button type="button" className="cadastrar" onClick={() => handleNavigation('/sobre')}>Sobre</button>
-          <button type="button" className="cadastrar" onClick={() => handleNavigation('/pokedex')}>Pokedex</button>
-          <button type="button" className="cadastrar" onClick={() => handleNavigation('/itens')}>Itens</button>
-          <button type="button" className="cadastrar" onClick={() => handleNavigation('/sobreNos')}>Sobre Nos</button>
-          <button type="button" className="cadastrar" onClick={() => handleNavigation('/admin/crud')}>Admin Page</button>
+          <button
+            type="button"
+            className="cadastrar"
+            onClick={() => handleNavigation("/sobre")}
+          >
+            Sobre
+          </button>
+          <button
+            type="button"
+            className="cadastrar"
+            onClick={() => handleNavigation("/pokedex")}
+          >
+            Pokedex
+          </button>
+          <button
+            type="button"
+            className="cadastrar"
+            onClick={() => handleNavigation("/itens")}
+          >
+            Itens
+          </button>
+          <button
+            type="button"
+            className="cadastrar"
+            onClick={() => handleNavigation("/sobreNos")}
+          >
+            Sobre Nos
+          </button>
+          <button
+            type="button"
+            className="cadastrar"
+            onClick={() => handleNavigation("/admin/crud")}
+          >
+            Admin Page
+          </button>
+          <button
+            type="button"
+            className="cadastrar"
+            onClick={() => handleNavigation("/admin/pokemonCrud")}
+          >
+            CRUD Pokemon
+          </button>
         </nav>
       </header>
 
       <h1>Admin: Gerenciar Usuários</h1>
 
       <form onSubmit={editingUser ? updateUser : addUser} className="form">
-        <h2>{editingUser ? 'Editar Usuário' : 'Adicionar Novo Usuário'}</h2>
+        <h2>{editingUser ? "Editar Usuário" : "Adicionar Novo Usuário"}</h2>
         <label>
           Nome:
           <input
             type="text"
             value={editingUser ? editingUser.name : newUser.name}
-            onChange={(e) => editingUser
-              ? setEditingUser({ ...editingUser, name: e.target.value })
-              : setNewUser({ ...newUser, name: e.target.value })}
+            onChange={(e) =>
+              editingUser
+                ? setEditingUser({ ...editingUser, name: e.target.value })
+                : setNewUser({ ...newUser, name: e.target.value })
+            }
             required
           />
         </label>
@@ -144,9 +188,11 @@ const AdminCrudPage = () => {
           <input
             type="email"
             value={editingUser ? editingUser.email : newUser.email}
-            onChange={(e) => editingUser
-              ? setEditingUser({ ...editingUser, email: e.target.value })
-              : setNewUser({ ...newUser, email: e.target.value })}
+            onChange={(e) =>
+              editingUser
+                ? setEditingUser({ ...editingUser, email: e.target.value })
+                : setNewUser({ ...newUser, email: e.target.value })
+            }
             required
           />
         </label>
@@ -156,9 +202,11 @@ const AdminCrudPage = () => {
           <input
             type="password"
             value={editingUser ? editingUser.password : newUser.password}
-            onChange={(e) => editingUser
-              ? setEditingUser({ ...editingUser, password: e.target.value })
-              : setNewUser({ ...newUser, password: e.target.value })}
+            onChange={(e) =>
+              editingUser
+                ? setEditingUser({ ...editingUser, password: e.target.value })
+                : setNewUser({ ...newUser, password: e.target.value })
+            }
             required
           />
         </label>
@@ -167,16 +215,20 @@ const AdminCrudPage = () => {
           Função:
           <select
             value={editingUser ? editingUser.role : newUser.role}
-            onChange={(e) => editingUser
-              ? setEditingUser({ ...editingUser, role: e.target.value })
-              : setNewUser({ ...newUser, role: e.target.value })}
+            onChange={(e) =>
+              editingUser
+                ? setEditingUser({ ...editingUser, role: e.target.value })
+                : setNewUser({ ...newUser, role: e.target.value })
+            }
           >
             <option value="viewer">Viewer</option>
-            <option value="admin">Admin</option>
+            <option value="Admin">Admin</option>
           </select>
         </label>
         <br />
-        <button type="submit">{editingUser ? 'Atualizar Usuário' : 'Adicionar Usuário'}</button>
+        <button type="submit">
+          {editingUser ? "Atualizar Usuário" : "Adicionar Usuário"}
+        </button>
       </form>
 
       {users.length > 0 ? (
@@ -191,7 +243,7 @@ const AdminCrudPage = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map(user => (
+            {users.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.name}</td>
@@ -209,7 +261,7 @@ const AdminCrudPage = () => {
         <p>Nenhum usuário encontrado</p>
       )}
 
-<style>
+      <style>
         {`
           body, html {
             margin: 0;
