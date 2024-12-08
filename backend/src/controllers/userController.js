@@ -26,8 +26,6 @@ class UserController {
     await user.update(updatedData);
     return user;
   }
-  
-  
 
   async createUser(name, email, password, role = 'Viewer') {
     if (!name || !email || !password) {

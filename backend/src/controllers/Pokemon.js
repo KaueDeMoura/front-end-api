@@ -2,7 +2,6 @@ const Pokemon = require('../models/pokemon');
 const fetch = require('node-fetch');
 
 class PokemonController {
-  // Listar Pokémons (mantido como estava)
   async listarPokemons() {
     const pokemons = await Pokemon.findAll({
       order: [['id', 'ASC']],
@@ -41,7 +40,6 @@ class PokemonController {
     return pokemons;
   }
 
-  // Listar itens (mantido como estava)
   async listarItens() {
     const response = await fetch('https://pokeapi.co/api/v2/item?limit=90');
     if (!response.ok) {
@@ -67,7 +65,6 @@ class PokemonController {
     return detailedItems;
   }
 
-  // Criar um novo Pokémon
   async criarPokemon(data) {
     try {
       const novoPokemon = await Pokemon.create({
@@ -82,7 +79,6 @@ class PokemonController {
     }
   }
 
-  // Atualizar um Pokémon existente
   async atualizarPokemon(id, data) {
     try {
       const pokemon = await Pokemon.findByPk(id);
@@ -103,7 +99,6 @@ class PokemonController {
     }
   }
 
-  // Deletar um Pokémon
   async deletarPokemon(id) {
     try {
       const pokemon = await Pokemon.findByPk(id);

@@ -13,7 +13,7 @@ const App = () => {
   useEffect(() => {
     async function fetchItems() {
       try {
-        const data = await listarItens(); // Usar a API do backend para buscar itens
+        const data = await listarItens();
         setItems(data);
         setFiltroitens(data);
       } catch (error) {

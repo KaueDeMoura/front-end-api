@@ -14,9 +14,6 @@ class UserApi {
       }
     }
   
-  
-  
-
     async createUser(req, res) {
         const { name, email, password, role } = req.body;
       
@@ -33,7 +30,6 @@ class UserApi {
         }
       }
       
-
   async updateUser(req, res) {
     const { id } = req.params;
     const { name, email, password, role } = req.body;
